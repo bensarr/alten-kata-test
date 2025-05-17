@@ -18,3 +18,14 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+product-messages:
+  code-length: 8
+  code-prefix: PROD-
+  min-value: 0.0
+  uuid-min-length: 9
+  id-null-error: Product ID cannot be null
+  name-null-error: Product name cannot be null
+  name-empty-error: Product name cannot be empty
+  negative-value-error: Product %s cannot be negative
+  create-null-error: Product create request cannot be null
+  update-null-error: Product update request cannot be null
