@@ -29,3 +29,11 @@ product-messages:
   negative-value-error: Product %s cannot be negative
   create-null-error: Product create request cannot be null
   update-null-error: Product update request cannot be null
+auth-message:
+  account-create-null-error: Account create request cannot be null
+  invalid-credentials: Invalid email or password
+  username-null-error: Username cannot be null or empty
+  firstname-null-error: FirstName cannot be null or empty
+  email-null-error: Email cannot be null or empty
+  password-null-error: Password cannot be null or empty
+  password-length-error: Password must be at least 6 characters long

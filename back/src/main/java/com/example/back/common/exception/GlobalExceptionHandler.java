@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -25,6 +26,7 @@ public class GlobalExceptionHandler {
     private static final String NOT_FOUND = "Not Found";
     private static final String CONFLICT = "Conflict";
     private static final String BAD_REQUEST = "Bad Request";
+    private static final String UNAUTHORIZED = "Unauthorized";
     private static final String INTERNAL_SERVER_ERROR = "Internal Server Error";
     private static final String DATABASE_CONSTRAINT_VIOLATION = "Database constraint violation";
     private static final String VALIDATION_FAILED = "Validation failed: ";
@@ -34,7 +36,7 @@ public class GlobalExceptionHandler {
     /**
      * Handles ResourceNotFoundException by creating a NOT_FOUND error response.
      *
-     * @param ex the exception
+     * @param ex      the exception
      * @param request the HTTP request
      * @return a ResponseEntity containing the error response
      */
@@ -47,7 +49,7 @@ public class GlobalExceptionHandler {
     /**
      * Handles EntityNotFoundException by creating a NOT_FOUND error response.
      *
-     * @param ex the exception
+     * @param ex      the exception
      * @param request the HTTP request
      * @return a ResponseEntity containing the error response
      */
@@ -60,7 +62,7 @@ public class GlobalExceptionHandler {
     /**
      * Handles DuplicateResourceException by creating a CONFLICT error response.
      *
-     * @param ex the exception
+     * @param ex      the exception
      * @param request the HTTP request
      * @return a ResponseEntity containing the error response
      */
@@ -73,7 +75,7 @@ public class GlobalExceptionHandler {
     /**
      * Handles ValidationException by creating a BAD_REQUEST error response.
      *
-     * @param ex the exception
+     * @param ex      the exception
      * @param request the HTTP request
      * @return a ResponseEntity containing the error response
      */
@@ -84,9 +86,22 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * Handles BadCredentialsException by creating an UNAUTHORIZED error response.
+     *
+     * @param ex      the exception
+     * @param request the HTTP request
+     * @return a ResponseEntity containing the error response
+     */
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ErrorResponseDTO> handleBadCredentialsException(
+            BadCredentialsException ex, HttpServletRequest request) {
+        return handleException(ex, HttpStatus.UNAUTHORIZED, UNAUTHORIZED, request);
+    }
+
+    /**
      * Handles DataIntegrityViolationException by creating an error response with a formatted message.
      *
-     * @param ex the exception
+     * @param ex      the exception
      * @param request the HTTP request
      * @return a ResponseEntity containing the error response
      */
@@ -100,7 +115,7 @@ public class GlobalExceptionHandler {
     /**
      * Handles MethodArgumentTypeMismatchException by creating an error response with a formatted message.
      *
-     * @param ex the exception
+     * @param ex      the exception
      * @param request the HTTP request
      * @return a ResponseEntity containing the error response
      */
@@ -114,9 +129,9 @@ public class GlobalExceptionHandler {
     /**
      * Handles standard exceptions by creating an error response with the exception message.
      *
-     * @param ex the exception
-     * @param status the HTTP status
-     * @param error the error type
+     * @param ex      the exception
+     * @param status  the HTTP status
+     * @param error   the error type
      * @param request the HTTP request
      * @return a ResponseEntity containing the error response
      */
@@ -129,7 +144,7 @@ public class GlobalExceptionHandler {
      * Handles MethodArgumentNotValidException by creating an error response with validation errors.
      * This method extracts field errors from the binding result and formats them into a readable message.
      *
-     * @param ex the exception
+     * @param ex      the exception
      * @param request the HTTP request
      * @return a ResponseEntity containing the error response
      */
@@ -137,11 +152,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponseDTO> handleMethodArgumentNotValidException(
             MethodArgumentNotValidException ex, HttpServletRequest request) {
 
-        String errorMessage = VALIDATION_FAILED + 
+        String errorMessage = VALIDATION_FAILED +
                 ex.getBindingResult().getAllErrors().stream()
                         .filter(FieldError.class::isInstance)
                         .map(FieldError.class::cast)
-                        .map(fieldError -> fieldError.getField() + " - " + 
+                        .map(fieldError -> fieldError.getField() + " - " +
                                 Objects.requireNonNullElse(fieldError.getDefaultMessage(), ""))
                         .collect(Collectors.joining("; "));
 
@@ -152,7 +167,7 @@ public class GlobalExceptionHandler {
      * Handles all other exceptions that don't have a specific handler.
      * This is a fallback handler for unexpected exceptions.
      *
-     * @param ex the exception
+     * @param ex      the exception
      * @param request the HTTP request
      * @return a ResponseEntity containing the error response
      */
@@ -166,8 +181,8 @@ public class GlobalExceptionHandler {
     /**
      * Creates an error response with the given status, error, message, and request.
      *
-     * @param status the HTTP status
-     * @param error the error type
+     * @param status  the HTTP status
+     * @param error   the error type
      * @param message the error message
      * @param request the HTTP request
      * @return a ResponseEntity containing the error response
