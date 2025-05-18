@@ -1,5 +1,6 @@
 package com.example.back.auth.config;
 
+import com.example.back.auth.security.AdminAuthorizationFilter;
 import com.example.back.auth.security.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -21,6 +22,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final AdminAuthorizationFilter adminAuthorizationFilter;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -36,13 +38,15 @@ public class SecurityConfig {
                         .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/account")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/token")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/products/**")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/products/**")).authenticated()
                         .anyRequest().authenticated()
                 )
                 .headers(headers -> headers
                         .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
                 )
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterAfter(adminAuthorizationFilter, JwtAuthenticationFilter.class);
+
 
         return http.build();
     }
