@@ -54,4 +54,30 @@ cart-messages:
 wishlist-messages:
   request-null-error: Add to wishlist request cannot be null
   product-id-null-error: Add to wishlist request cannot be null
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+swagger-info:
+  contact:
+    email: contact@alten-kata.sn
+    name: alten-kata
+    url: https://www.alten-kata.sn
+  server:
+    dev-url: /
+    dev-description: Server URL DEV
+    test-url: /
+    test-description: Server URL TEST
+    prod-url: /
+    prod-description: Server URL PROD
+  license:
+    url: https://choosealicense.com/licenses/mit/
+    name: MIT License
+  title: Alten kata application Management API
+  version: 1.0
+  description: This API exposes endpoints to manage alten-kata Applications.
+  terms-of-service: https://www.alten-kata.sn/terms
 
