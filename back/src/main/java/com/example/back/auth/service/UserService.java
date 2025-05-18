@@ -1,8 +1,8 @@
 package com.example.back.auth.service;
 
-import com.example.back.auth.dto.AccountCreateDTO;
-import com.example.back.auth.dto.TokenRequestDTO;
-import com.example.back.auth.dto.TokenResponseDTO;
+import com.example.back.auth.dto.request.AccountCreateRequestDTO;
+import com.example.back.auth.dto.request.TokenRequestDTO;
+import com.example.back.auth.dto.response.TokenResponseDTO;
 import com.example.back.auth.model.User;
 import com.example.back.auth.repository.UserRepository;
 import com.example.back.auth.security.CustomUserDetails;
@@ -69,7 +69,7 @@ public class UserService {
      * @throws DuplicateResourceException if the username or email already exists
      */
     @Transactional
-    public void createUser(AccountCreateDTO createDTO) {
+    public void createUser(AccountCreateRequestDTO createDTO) {
         // Validate request
         validateCreateRequest(createDTO);
 
@@ -110,7 +110,7 @@ public class UserService {
      * @param createDTO the account creation DTO
      * @throws ValidationException if validation fails
      */
-    private void validateCreateRequest(AccountCreateDTO createDTO) {
+    private void validateCreateRequest(AccountCreateRequestDTO createDTO) {
         if (createDTO == null) {
             throw new ValidationException(properties.getAccountCreateNullError());
         }

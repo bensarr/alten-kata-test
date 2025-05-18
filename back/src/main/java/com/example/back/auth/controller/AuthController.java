@@ -1,8 +1,8 @@
 package com.example.back.auth.controller;
 
-import com.example.back.auth.dto.AccountCreateDTO;
-import com.example.back.auth.dto.TokenRequestDTO;
-import com.example.back.auth.dto.TokenResponseDTO;
+import com.example.back.auth.dto.request.AccountCreateRequestDTO;
+import com.example.back.auth.dto.request.TokenRequestDTO;
+import com.example.back.auth.dto.response.TokenResponseDTO;
 import com.example.back.auth.service.UserService;
 import com.example.back.common.dto.ApiDataResponse;
 import jakarta.validation.Valid;
@@ -31,7 +31,7 @@ public class AuthController {
      */
     @PostMapping("/account")
     public ResponseEntity<ApiDataResponse<Void>> createAccount(
-        @Valid @RequestBody AccountCreateDTO createDTO) {
+        @Valid @RequestBody AccountCreateRequestDTO createDTO) {
         userService.createUser(createDTO);
 
         ApiDataResponse<Void> response = new ApiDataResponse<>(
