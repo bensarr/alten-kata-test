@@ -1,6 +1,6 @@
 package com.example.back.auth.security;
 
-import com.example.back.properties.AdminAuthFilterProperties;
+import com.example.back.auth.properties.AdminAuthFilterProperties;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

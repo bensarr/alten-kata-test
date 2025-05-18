@@ -1,4 +1,4 @@
-package com.example.back.properties;
+package com.example.back.auth.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

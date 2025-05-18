@@ -9,7 +9,7 @@ import com.example.back.auth.security.CustomUserDetails;
 import com.example.back.auth.security.JwtUtil;
 import com.example.back.common.exception.DuplicateResourceException;
 import com.example.back.common.exception.ValidationException;
-import com.example.back.properties.AuthMessageProperties;
+import com.example.back.auth.properties.AuthMessageProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
