@@ -1,7 +1,7 @@
 package com.example.back.wishlist.mapper;
 
-import com.example.back.wishlist.dto.WishlistItemDTO;
-import com.example.back.wishlist.dto.WishlistResponseDTO;
+import com.example.back.wishlist.dto.request.WishlistItemRequestDTO;
+import com.example.back.wishlist.dto.response.WishlistResponseDTO;
 import com.example.back.wishlist.model.Wishlist;
 import com.example.back.wishlist.model.WishlistItem;
 import org.springframework.stereotype.Component;
@@ -21,12 +21,12 @@ public class WishlistMapper {
      * @param wishlistItem the WishlistItem entity
      * @return the WishlistItemDTO
      */
-    public WishlistItemDTO toWishlistItemDTO(WishlistItem wishlistItem) {
+    public WishlistItemRequestDTO toWishlistItemDTO(WishlistItem wishlistItem) {
         if (wishlistItem == null) {
             return null;
         }
 
-        WishlistItemDTO dto = new WishlistItemDTO();
+        WishlistItemRequestDTO dto = new WishlistItemRequestDTO();
         dto.setProductId(wishlistItem.getProduct().getId());
         dto.setProductCode(wishlistItem.getProduct().getCode());
         dto.setProductName(wishlistItem.getProduct().getName());
@@ -44,7 +44,7 @@ public class WishlistMapper {
      * @param wishlistItems the list of WishlistItem entities
      * @return the list of WishlistItemDTOs
      */
-    public List<WishlistItemDTO> toWishlistItemDTOList(List<WishlistItem> wishlistItems) {
+    public List<WishlistItemRequestDTO> toWishlistItemDTOList(List<WishlistItem> wishlistItems) {
         if (wishlistItems == null) {
             return Collections.emptyList();
         }
@@ -72,7 +72,7 @@ public class WishlistMapper {
         dto.setUpdatedAt(wishlist.getUpdatedAt());
         
         // Convert wishlist items
-        List<WishlistItemDTO> itemDTOs = toWishlistItemDTOList(wishlist.getItems());
+        List<WishlistItemRequestDTO> itemDTOs = toWishlistItemDTOList(wishlist.getItems());
         dto.setItems(itemDTOs);
         
         // Set total items

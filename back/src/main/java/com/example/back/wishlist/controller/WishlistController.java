@@ -1,7 +1,7 @@
 package com.example.back.wishlist.controller;
 
-import com.example.back.wishlist.dto.AddToWishlistDTO;
-import com.example.back.wishlist.dto.WishlistResponseDTO;
+import com.example.back.wishlist.dto.request.AddToWishlistRequestDTO;
+import com.example.back.wishlist.dto.response.WishlistResponseDTO;
 import com.example.back.wishlist.service.WishlistService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +36,7 @@ public class WishlistController {
      * @return the updated wishlist
      */
     @PostMapping("/items")
-    public ResponseEntity<WishlistResponseDTO> addToWishlist(@Valid @RequestBody AddToWishlistDTO addToWishlistDTO) {
+    public ResponseEntity<WishlistResponseDTO> addToWishlist(@Valid @RequestBody AddToWishlistRequestDTO addToWishlistDTO) {
         return ResponseEntity.ok(wishlistService.addToWishlist(addToWishlistDTO));
     }
 

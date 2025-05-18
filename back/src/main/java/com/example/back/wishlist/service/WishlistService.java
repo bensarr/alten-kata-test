@@ -6,8 +6,8 @@ import com.example.back.common.exception.ResourceNotFoundException;
 import com.example.back.common.exception.ValidationException;
 import com.example.back.product.model.Product;
 import com.example.back.product.service.ProductService;
-import com.example.back.wishlist.dto.AddToWishlistDTO;
-import com.example.back.wishlist.dto.WishlistResponseDTO;
+import com.example.back.wishlist.dto.request.AddToWishlistRequestDTO;
+import com.example.back.wishlist.dto.response.WishlistResponseDTO;
 import com.example.back.wishlist.mapper.WishlistMapper;
 import com.example.back.wishlist.model.Wishlist;
 import com.example.back.wishlist.model.WishlistItem;
@@ -57,7 +57,7 @@ public class WishlistService {
      * @return the updated wishlist response DTO
      */
     @Transactional
-    public WishlistResponseDTO addToWishlist(AddToWishlistDTO addToWishlistDTO) {
+    public WishlistResponseDTO addToWishlist(AddToWishlistRequestDTO addToWishlistDTO) {
         validateAddToWishlistRequest(addToWishlistDTO);
 
         User user = getCurrentUser();
@@ -153,7 +153,7 @@ public class WishlistService {
      * @param addToWishlistDTO the add to wishlist DTO
      * @throws ValidationException if validation fails
      */
-    private void validateAddToWishlistRequest(AddToWishlistDTO addToWishlistDTO) {
+    private void validateAddToWishlistRequest(AddToWishlistRequestDTO addToWishlistDTO) {
         if (addToWishlistDTO == null) {
             throw new ValidationException(properties.getRequestNullError());
         }

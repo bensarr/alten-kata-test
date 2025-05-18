@@ -1,4 +1,4 @@
-package com.example.back.wishlist.dto;
+package com.example.back.wishlist.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AddToWishlistDTO {
+public class AddToWishlistRequestDTO {
     @NotNull(message = "Product ID is required")
     @JsonProperty("product_id")
     private Long productId;

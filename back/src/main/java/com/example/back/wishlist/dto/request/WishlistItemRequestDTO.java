@@ -1,4 +1,4 @@
-package com.example.back.wishlist.dto;
+package com.example.back.wishlist.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class WishlistItemDTO {
+public class WishlistItemRequestDTO {
     @JsonProperty("product_id")
     private Long productId;
     @JsonProperty("product_code")

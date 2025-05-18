@@ -1,5 +1,6 @@
-package com.example.back.wishlist.dto;
+package com.example.back.wishlist.dto.response;
 
+import com.example.back.wishlist.dto.request.WishlistItemRequestDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,7 +20,7 @@ public class WishlistResponseDTO {
     private Long id;
     @JsonProperty("user_id")
     private Long userId;
-    private List<WishlistItemDTO> items = new ArrayList<>();
+    private List<WishlistItemRequestDTO> items = new ArrayList<>();
     @JsonProperty("total_items")
     private Integer totalItems;
     @JsonProperty("created_at")
