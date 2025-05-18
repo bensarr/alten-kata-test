@@ -51,3 +51,7 @@ cart-messages:
   cart-create-null-error: Add to cart request cannot be null
   cart-update-null-error: Update cart item request cannot be null
   product-null-error: Product ID cannot be null
+wishlist-messages:
+  request-null-error: Add to wishlist request cannot be null
+  product-id-null-error: Add to wishlist request cannot be null
+
