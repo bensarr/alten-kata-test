@@ -6,6 +6,7 @@ import com.example.back.cart.dto.request.UpdateCartItemRequestDTO;
 import com.example.back.cart.service.CartService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,65 +15,56 @@ import org.springframework.web.bind.annotation.*;
  * This controller handles shopping cart operations.
  */
 @RestController
-@RequestMapping("/cart")
 @RequiredArgsConstructor
-public class CartController {
+@Slf4j
+public class CartController implements CartApi {
 
     private final CartService cartService;
 
     /**
-     * Get the current user's shopping cart.
-     *
-     * @return the shopping cart
+     * {@inheritDoc}
      */
-    @GetMapping
+    @Override
     public ResponseEntity<CartResponseDTO> getCart() {
+        log.debug("REST request to get current user's cart");
         return ResponseEntity.ok(cartService.getCurrentUserCart());
     }
 
     /**
-     * Add a product to the cart.
-     *
-     * @param addToCartDTO the add to cart DTO
-     * @return the updated cart
+     * {@inheritDoc}
      */
-    @PostMapping("/items")
-    public ResponseEntity<CartResponseDTO> addToCart(@Valid @RequestBody AddToCartRequestDTO addToCartDTO) {
+    @Override
+    public ResponseEntity<CartResponseDTO> addToCart(@Valid AddToCartRequestDTO addToCartDTO) {
+        log.debug("REST request to add product to cart: {}", addToCartDTO);
         return ResponseEntity.ok(cartService.addToCart(addToCartDTO));
     }
 
     /**
-     * Update the quantity of a cart item.
-     *
-     * @param productId the product ID
-     * @param updateCartItemDTO the update cart item DTO
-     * @return the updated cart
+     * {@inheritDoc}
      */
-    @PatchMapping("/items/{productId}")
+    @Override
     public ResponseEntity<CartResponseDTO> updateCartItem(
-            @PathVariable Long productId,
-            @Valid @RequestBody UpdateCartItemRequestDTO updateCartItemDTO) {
+            Long productId,
+            @Valid UpdateCartItemRequestDTO updateCartItemDTO) {
+        log.debug("REST request to update cart item for product id: {}", productId);
         return ResponseEntity.ok(cartService.updateCartItem(productId, updateCartItemDTO));
     }
 
     /**
-     * Remove a product from the cart.
-     *
-     * @param productId the product ID
-     * @return the updated cart
+     * {@inheritDoc}
      */
-    @DeleteMapping("/items/{productId}")
-    public ResponseEntity<CartResponseDTO> removeFromCart(@PathVariable Long productId) {
+    @Override
+    public ResponseEntity<CartResponseDTO> removeFromCart(Long productId) {
+        log.debug("REST request to remove product from cart with id: {}", productId);
         return ResponseEntity.ok(cartService.removeFromCart(productId));
     }
 
     /**
-     * Clear the cart.
-     *
-     * @return the empty cart
+     * {@inheritDoc}
      */
-    @DeleteMapping
+    @Override
     public ResponseEntity<CartResponseDTO> clearCart() {
+        log.debug("REST request to clear cart");
         return ResponseEntity.ok(cartService.clearCart());
     }
 }
