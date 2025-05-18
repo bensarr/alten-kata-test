@@ -34,8 +34,10 @@ public class WishlistItem {
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
+    @JoinColumn(name = "created_at")
     private Long createdAt;
 
+    @JoinColumn(name = "updated_at")
     private Long updatedAt;
 
     @PrePersist

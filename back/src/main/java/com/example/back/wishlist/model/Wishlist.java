@@ -35,8 +35,10 @@ public class Wishlist {
     @OneToMany(mappedBy = "wishlist", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WishlistItem> items = new ArrayList<>();
 
+    @JoinColumn(name = "created_at")
     private Long createdAt;
 
+    @JoinColumn(name = "updated_at")
     private Long updatedAt;
 
     @PrePersist
