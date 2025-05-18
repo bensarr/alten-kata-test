@@ -29,7 +29,7 @@ product-messages:
   negative-value-error: Product %s cannot be negative
   create-null-error: Product create request cannot be null
   update-null-error: Product update request cannot be null
-auth-message:
+auth-messages:
   account-create-null-error: Account create request cannot be null
   invalid-credentials: Invalid email or password
   username-null-error: Username cannot be null or empty
@@ -41,3 +41,13 @@ admin-auth-filter:
   email: admin@admin.com
   path: /products
   message: "Access denied: Only admin can perform this operation"
+cart-messages:
+  min-quantity: 1
+  not-enough-stock: "Not enough stock available. Available: %d"
+  product-out-of-stock: Product is out of stock
+  quantity-must-be-positive: Quantity must be greater than 0
+  no-authentication: No authentication found in security context
+  user-null-error: User cannot be null
+  cart-create-null-error: Add to cart request cannot be null
+  cart-update-null-error: Update cart item request cannot be null
+  product-null-error: Product ID cannot be null
