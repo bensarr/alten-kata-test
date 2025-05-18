@@ -1,5 +1,6 @@
-package com.example.back.cart.dto;
+package com.example.back.cart.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,8 +13,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AddToCartDTO {
+public class AddToCartRequestDTO {
     @NotNull(message = "Product ID is required")
+    @JsonProperty("product_id")
     private Long productId;
 
     @NotNull(message = "Quantity is required")

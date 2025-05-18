@@ -35,8 +35,10 @@ public class ShoppingCart {
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CartItem> items = new ArrayList<>();
 
+    @JoinColumn(name = "created_at")
     private Long createdAt;
 
+    @JoinColumn(name = "updated_at")
     private Long updatedAt;
 
     @PrePersist

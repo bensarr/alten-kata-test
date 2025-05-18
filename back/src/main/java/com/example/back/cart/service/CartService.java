@@ -2,9 +2,9 @@ package com.example.back.cart.service;
 
 import com.example.back.auth.model.User;
 import com.example.back.auth.service.UserService;
-import com.example.back.cart.dto.AddToCartDTO;
-import com.example.back.cart.dto.CartResponseDTO;
-import com.example.back.cart.dto.UpdateCartItemDTO;
+import com.example.back.cart.dto.request.AddToCartRequestDTO;
+import com.example.back.cart.dto.response.CartResponseDTO;
+import com.example.back.cart.dto.request.UpdateCartItemRequestDTO;
 import com.example.back.cart.mapper.CartMapper;
 import com.example.back.cart.model.CartItem;
 import com.example.back.cart.model.ShoppingCart;
@@ -86,7 +86,7 @@ public class CartService {
      * @return the updated cart response DTO
      */
     @Transactional
-    public CartResponseDTO addToCart(AddToCartDTO addToCartDTO) {
+    public CartResponseDTO addToCart(AddToCartRequestDTO addToCartDTO) {
         validateAddToCartRequest(addToCartDTO);
 
         User user = getCurrentUser();
@@ -136,7 +136,7 @@ public class CartService {
      * @return the updated cart response DTO
      */
     @Transactional
-    public CartResponseDTO updateCartItem(Long productId, UpdateCartItemDTO updateCartItemDTO) {
+    public CartResponseDTO updateCartItem(Long productId, UpdateCartItemRequestDTO updateCartItemDTO) {
         validateUpdateCartItemRequest(updateCartItemDTO);
 
         User user = getCurrentUser();
@@ -234,7 +234,7 @@ public class CartService {
      * @param addToCartDTO the add to cart DTO
      * @throws ValidationException if validation fails
      */
-    private void validateAddToCartRequest(AddToCartDTO addToCartDTO) {
+    private void validateAddToCartRequest(AddToCartRequestDTO addToCartDTO) {
         Objects.requireNonNull(addToCartDTO, properties.getCartCreateNullError());
         Objects.requireNonNull(addToCartDTO.getProductId(), properties.getProductNullError());
 
@@ -249,7 +249,7 @@ public class CartService {
      * @param updateCartItemDTO the update cart item DTO
      * @throws ValidationException if validation fails
      */
-    private void validateUpdateCartItemRequest(UpdateCartItemDTO updateCartItemDTO) {
+    private void validateUpdateCartItemRequest(UpdateCartItemRequestDTO updateCartItemDTO) {
         Objects.requireNonNull(updateCartItemDTO, properties.getCartUpdateNullError());
 
         if (updateCartItemDTO.getQuantity() == null || updateCartItemDTO.getQuantity() < properties.getMinQuantity()) {

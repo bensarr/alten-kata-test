@@ -1,7 +1,7 @@
 package com.example.back.cart.mapper;
 
-import com.example.back.cart.dto.CartItemDTO;
-import com.example.back.cart.dto.CartResponseDTO;
+import com.example.back.cart.dto.request.CartItemRequestDTO;
+import com.example.back.cart.dto.response.CartResponseDTO;
 import com.example.back.cart.model.CartItem;
 import com.example.back.cart.model.ShoppingCart;
 import org.springframework.stereotype.Component;
@@ -21,12 +21,12 @@ public class CartMapper {
      * @param cartItem the CartItem entity
      * @return the CartItemDTO
      */
-    public CartItemDTO toCartItemDTO(CartItem cartItem) {
+    public CartItemRequestDTO toCartItemDTO(CartItem cartItem) {
         if (cartItem == null) {
             return null;
         }
 
-        CartItemDTO dto = new CartItemDTO();
+        CartItemRequestDTO dto = new CartItemRequestDTO();
         dto.setProductId(cartItem.getProduct().getId());
         dto.setProductCode(cartItem.getProduct().getCode());
         dto.setProductName(cartItem.getProduct().getName());
@@ -48,7 +48,7 @@ public class CartMapper {
      * @param cartItems the list of CartItem entities
      * @return the list of CartItemDTOs
      */
-    public List<CartItemDTO> toCartItemDTOList(List<CartItem> cartItems) {
+    public List<CartItemRequestDTO> toCartItemDTOList(List<CartItem> cartItems) {
         if (cartItems == null) {
             return Collections.emptyList();
         }
@@ -76,14 +76,14 @@ public class CartMapper {
         dto.setUpdatedAt(cart.getUpdatedAt());
         
         // Convert cart items
-        List<CartItemDTO> itemDTOs = toCartItemDTOList(cart.getItems());
+        List<CartItemRequestDTO> itemDTOs = toCartItemDTOList(cart.getItems());
         dto.setItems(itemDTOs);
         
         // Calculate total items and total price
         int totalItems = 0;
         double totalPrice = 0.0;
         
-        for (CartItemDTO item : itemDTOs) {
+        for (CartItemRequestDTO item : itemDTOs) {
             if (item.getQuantity() != null) {
                 totalItems += item.getQuantity();
             }

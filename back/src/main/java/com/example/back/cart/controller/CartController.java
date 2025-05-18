@@ -1,8 +1,8 @@
 package com.example.back.cart.controller;
 
-import com.example.back.cart.dto.AddToCartDTO;
-import com.example.back.cart.dto.CartResponseDTO;
-import com.example.back.cart.dto.UpdateCartItemDTO;
+import com.example.back.cart.dto.request.AddToCartRequestDTO;
+import com.example.back.cart.dto.response.CartResponseDTO;
+import com.example.back.cart.dto.request.UpdateCartItemRequestDTO;
 import com.example.back.cart.service.CartService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +37,7 @@ public class CartController {
      * @return the updated cart
      */
     @PostMapping("/items")
-    public ResponseEntity<CartResponseDTO> addToCart(@Valid @RequestBody AddToCartDTO addToCartDTO) {
+    public ResponseEntity<CartResponseDTO> addToCart(@Valid @RequestBody AddToCartRequestDTO addToCartDTO) {
         return ResponseEntity.ok(cartService.addToCart(addToCartDTO));
     }
 
@@ -51,7 +51,7 @@ public class CartController {
     @PatchMapping("/items/{productId}")
     public ResponseEntity<CartResponseDTO> updateCartItem(
             @PathVariable Long productId,
-            @Valid @RequestBody UpdateCartItemDTO updateCartItemDTO) {
+            @Valid @RequestBody UpdateCartItemRequestDTO updateCartItemDTO) {
         return ResponseEntity.ok(cartService.updateCartItem(productId, updateCartItemDTO));
     }
 

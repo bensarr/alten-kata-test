@@ -39,8 +39,10 @@ public class CartItem {
     @Column(nullable = false)
     private Integer quantity;
 
+    @JoinColumn(name = "created_at")
     private Long createdAt;
 
+    @JoinColumn(name = "updated_at")
     private Long updatedAt;
 
     @PrePersist

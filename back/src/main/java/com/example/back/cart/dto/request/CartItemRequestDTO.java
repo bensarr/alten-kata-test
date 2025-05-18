@@ -1,5 +1,6 @@
-package com.example.back.cart.dto;
+package com.example.back.cart.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,11 +12,16 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CartItemDTO {
+public class CartItemRequestDTO {
+    @JsonProperty("product_id")
     private Long productId;
+    @JsonProperty("product_code")
     private String productCode;
+    @JsonProperty("product_name")
     private String productName;
+    @JsonProperty("product_image")
     private String productImage;
+    @JsonProperty("product_price")
     private Double productPrice;
     private Integer quantity;
     private Double subtotal;
