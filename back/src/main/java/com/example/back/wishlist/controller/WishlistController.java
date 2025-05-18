@@ -5,6 +5,7 @@ import com.example.back.wishlist.dto.response.WishlistResponseDTO;
 import com.example.back.wishlist.service.WishlistService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,51 +14,45 @@ import org.springframework.web.bind.annotation.*;
  * This controller handles wishlist operations.
  */
 @RestController
-@RequestMapping("/wishlist")
 @RequiredArgsConstructor
-public class WishlistController {
+@Slf4j
+public class WishlistController implements WishlistApi {
 
     private final WishlistService wishlistService;
 
     /**
-     * Get the current user's wishlist.
-     *
-     * @return the wishlist
+     * {@inheritDoc}
      */
-    @GetMapping
+    @Override
     public ResponseEntity<WishlistResponseDTO> getWishlist() {
+        log.debug("REST request to get current user's wishlist");
         return ResponseEntity.ok(wishlistService.getCurrentUserWishlist());
     }
 
     /**
-     * Add a product to the wishlist.
-     *
-     * @param addToWishlistDTO the add to wishlist DTO
-     * @return the updated wishlist
+     * {@inheritDoc}
      */
-    @PostMapping("/items")
-    public ResponseEntity<WishlistResponseDTO> addToWishlist(@Valid @RequestBody AddToWishlistRequestDTO addToWishlistDTO) {
+    @Override
+    public ResponseEntity<WishlistResponseDTO> addToWishlist(@Valid AddToWishlistRequestDTO addToWishlistDTO) {
+        log.debug("REST request to add product to wishlist: {}", addToWishlistDTO);
         return ResponseEntity.ok(wishlistService.addToWishlist(addToWishlistDTO));
     }
 
     /**
-     * Remove a product from the wishlist.
-     *
-     * @param productId the product ID
-     * @return the updated wishlist
+     * {@inheritDoc}
      */
-    @DeleteMapping("/items/{productId}")
-    public ResponseEntity<WishlistResponseDTO> removeFromWishlist(@PathVariable Long productId) {
+    @Override
+    public ResponseEntity<WishlistResponseDTO> removeFromWishlist(Long productId) {
+        log.debug("REST request to remove product from wishlist with id: {}", productId);
         return ResponseEntity.ok(wishlistService.removeFromWishlist(productId));
     }
 
     /**
-     * Clear the wishlist.
-     *
-     * @return the empty wishlist
+     * {@inheritDoc}
      */
-    @DeleteMapping
+    @Override
     public ResponseEntity<WishlistResponseDTO> clearWishlist() {
+        log.debug("REST request to clear wishlist");
         return ResponseEntity.ok(wishlistService.clearWishlist());
     }
 }
