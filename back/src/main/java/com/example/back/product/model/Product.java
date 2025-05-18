@@ -45,19 +45,24 @@ public class Product {
     private Integer quantity;
 
     @Size(max = 50, message = "Internal reference cannot exceed 50 characters")
+    @JoinColumn(name = "internal_reference", nullable = false)
     private String internalReference;
 
+    @JoinColumn(name = "shell_id", nullable = false)
     private Long shellId;
 
     @Enumerated(EnumType.STRING)
+    @JoinColumn(name = "inventory_status", nullable = false)
     private InventoryStatus inventoryStatus;
 
     @Min(value = 0, message = "Rating cannot be negative")
     @Max(value = 5, message = "Rating cannot be greater than 5")
     private Integer rating;
 
+    @JoinColumn(name = "created_at", nullable = false)
     private Long createdAt;
 
+    @JoinColumn(name = "updated_at", nullable = false)
     private Long updatedAt;
 
     @PrePersist

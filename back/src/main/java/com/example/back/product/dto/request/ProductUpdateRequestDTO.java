@@ -1,6 +1,7 @@
 package com.example.back.product.dto.request;
 
 import com.example.back.product.model.InventoryStatus;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -39,10 +40,13 @@ public class ProductUpdateRequestDTO {
     private Integer quantity;
 
     @Size(max = 50, message = "Internal reference cannot exceed 50 characters")
+    @JsonProperty("internal_reference")
     private String internalReference;
 
+    @JsonProperty("shell_id")
     private Long shellId;
 
+    @JsonProperty("inventory_status")
     private InventoryStatus inventoryStatus;
 
     @Min(value = 0, message = "Rating cannot be negative")

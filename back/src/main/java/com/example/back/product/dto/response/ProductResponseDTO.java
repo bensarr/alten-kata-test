@@ -1,6 +1,7 @@
 package com.example.back.product.dto.response;
 
 import com.example.back.product.model.InventoryStatus;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,10 +23,15 @@ public class ProductResponseDTO {
     private String category;
     private Double price;
     private Integer quantity;
+    @JsonProperty("internal_reference")
     private String internalReference;
+    @JsonProperty("shell_id")
     private Long shellId;
+    @JsonProperty("inventory_status")
     private InventoryStatus inventoryStatus;
     private Integer rating;
+    @JsonProperty("created_at")
     private Long createdAt;
+    @JsonProperty("updated_at")
     private Long updatedAt;
 }
