@@ -64,7 +64,7 @@ Cette application utilise SpringDoc OpenAPI (Swagger) pour documenter les API. U
    ```json
    {
      "username": "user",
-     "firstName": "Test",
+     "firstname": "Test",
      "email": "user@example.com",
      "password": "password123"
    }
@@ -99,10 +99,16 @@ Pour tester les opérations CRUD sur les produits :
     - Cliquez sur "Try it out" et fournissez les détails du produit :
    ```json
    {
-     "name": "Smartphone",
-     "description": "Latest smartphone model",
-     "price": 799.99,
-     "stock": 50
+     "name": "string",
+     "description": "string",
+     "image": "string",
+     "category": "string",
+     "price": 0.1,
+     "quantity": 1073741824,
+     "rating": 5,
+     "internal_reference": "string",
+     "shell_id": 9007199254740991,
+     "inventory_status": "INSTOCK"
    }
    ```
 
@@ -122,8 +128,15 @@ Pour tester les opérations CRUD sur les produits :
    ```json
    {
      "name": "Smartphone Updated",
-     "price": 699.99,
-     "stock": 45
+     "description": "string",
+     "image": "string",
+     "category": "string",
+     "price": 0.1,
+     "quantity": 1073741824,
+     "rating": 5,
+     "internal_reference": "string",
+     "shell_id": 9007199254740991,
+     "inventory_status": "INSTOCK"
    }
    ```
 
