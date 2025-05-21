@@ -6,6 +6,9 @@ import { ButtonModule } from "primeng/button";
 import { CardModule } from "primeng/card";
 import { DataViewModule } from 'primeng/dataview';
 import { DialogModule } from 'primeng/dialog';
+import {CurrencyPipe, NgClass} from "@angular/common";
+import {FormsModule} from "@angular/forms";
+import {RatingModule} from "primeng/rating";
 
 const emptyProduct: Product = {
   id: 0,
@@ -29,7 +32,7 @@ const emptyProduct: Product = {
   templateUrl: "./product-list.component.html",
   styleUrls: ["./product-list.component.scss"],
   standalone: true,
-  imports: [DataViewModule, CardModule, ButtonModule, DialogModule, ProductFormComponent],
+  imports: [DataViewModule, CardModule, ButtonModule, DialogModule, ProductFormComponent, NgClass, CurrencyPipe, FormsModule, RatingModule],
 })
 export class ProductListComponent implements OnInit {
   private readonly productsService = inject(ProductsService);
@@ -75,5 +78,18 @@ export class ProductListComponent implements OnInit {
 
   private closeDialog() {
     this.isDialogVisible = false;
+  }
+
+  public getInventoryStatusLabel(status: string): string {
+    switch (status) {
+      case 'INSTOCK':
+        return 'En stock';
+      case 'LOWSTOCK':
+        return 'Stock bas';
+      case 'OUTOFSTOCK':
+        return 'Épuisé';
+      default:
+        return status;
+    }
   }
 }
