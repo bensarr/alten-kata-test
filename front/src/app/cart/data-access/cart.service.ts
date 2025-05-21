@@ -23,7 +23,6 @@ export class CartService {
       const existingItemIndex = items.findIndex(item => item.product.id === product.id);
 
       if (existingItemIndex >= 0) {
-        // Le produit existe déjà dans le panier, on augmente sa quantité
         const newItems = [...items];
         newItems[existingItemIndex] = {
           ...newItems[existingItemIndex],
@@ -31,7 +30,6 @@ export class CartService {
         };
         return newItems;
       } else {
-        // Nouveau produit dans le panier
         return [...items, { product, quantity }];
       }
     });
