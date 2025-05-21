@@ -1,0 +1,93 @@
+.contact-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.contact-header {
+  text-align: center;
+  margin-bottom: 2rem;
+
+  h1 {
+    color: #333;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    color: #666;
+    font-size: 1.1rem;
+  }
+}
+
+.contact-form-card {
+  .field {
+    margin-bottom: 1.5rem;
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: #333;
+
+      &.required-field::after {
+        content: " *";
+        color: #e74c3c;
+      }
+    }
+
+    input, textarea {
+      transition: border-color 0.2s;
+
+      &:focus {
+        border-color: #007ad9;
+        box-shadow: 0 0 0 0.1rem rgba(0, 122, 217, 0.2);
+      }
+
+      &.ng-invalid.ng-touched {
+        border-color: #e74c3c;
+      }
+    }
+  }
+
+  .message-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.25rem;
+  }
+
+  .error-message {
+    color: #e74c3c;
+    font-size: 0.875rem;
+  }
+
+  .character-count {
+    color: #666;
+    font-size: 0.875rem;
+  }
+
+  .form-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+
+    .submit-button {
+      min-width: 150px;
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .contact-container {
+    padding: 1rem;
+  }
+
+  .contact-form-card {
+    .message-info {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.25rem;
+    }
+  }
+}

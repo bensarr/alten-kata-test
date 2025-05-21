@@ -1,0 +1,68 @@
+<div class="contact-container">
+  <p-toast></p-toast>
+
+  <div class="contact-header">
+    <h1>Contactez-nous</h1>
+    <p>N'hésitez pas à nous envoyer un message, nous vous répondrons dans les plus brefs délais.</p>
+  </div>
+
+  <p-card class="contact-form-card">
+    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+      <div class="field">
+        <label for="email" class="required-field">Email</label>
+        <input
+          id="email"
+          type="email"
+          pInputText
+          formControlName="email"
+          placeholder="Votre adresse email"
+          class="w-full"
+          [class.ng-invalid]="email?.invalid && email?.touched"
+        />
+        <small
+          class="error-message"
+          *ngIf="email?.invalid && email?.touched"
+        >
+          <span *ngIf="email?.errors?.['required']">L'email est obligatoire.</span>
+          <span *ngIf="email?.errors?.['email']">Veuillez saisir un email valide.</span>
+        </small>
+      </div>
+
+      <div class="field">
+        <label for="message" class="required-field">Message</label>
+        <textarea
+          id="message"
+          pInputTextarea
+          formControlName="message"
+          placeholder="Votre message (maximum 300 caractères)"
+          rows="6"
+          class="w-full"
+          [class.ng-invalid]="message?.invalid && message?.touched"
+        ></textarea>
+        <div class="message-info">
+          <small
+            class="error-message"
+            *ngIf="message?.invalid && message?.touched"
+          >
+            <span *ngIf="message?.errors?.['required']">Le message est obligatoire.</span>
+            <span *ngIf="message?.errors?.['maxlength']">Le message ne peut pas dépasser 300 caractères.</span>
+          </small>
+          <small class="character-count">
+            {{ getMessageCharacterCount() }}/300 caractères
+          </small>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <p-button
+          type="submit"
+          label="Envoyer"
+          icon="pi pi-send"
+          [disabled]="contactForm.invalid"
+          styleClass="submit-button"
+        ></p-button>
+      </div>
+
+    </form>
+  </p-card>
+</div>
