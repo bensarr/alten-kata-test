@@ -9,6 +9,8 @@ import { DialogModule } from 'primeng/dialog';
 import {CurrencyPipe, NgClass} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {RatingModule} from "primeng/rating";
+import {CartService} from "../../../cart/data-access/cart.service";
+import {MessageService} from "primeng/api";
 
 const emptyProduct: Product = {
   id: 0,
@@ -33,9 +35,12 @@ const emptyProduct: Product = {
   styleUrls: ["./product-list.component.scss"],
   standalone: true,
   imports: [DataViewModule, CardModule, ButtonModule, DialogModule, ProductFormComponent, NgClass, CurrencyPipe, FormsModule, RatingModule],
+  providers: [MessageService],
 })
 export class ProductListComponent implements OnInit {
   private readonly productsService = inject(ProductsService);
+  private readonly cartService = inject(CartService);
+  private readonly messageService = inject(MessageService);
 
   public readonly products = this.productsService.products;
 
@@ -91,5 +96,15 @@ export class ProductListComponent implements OnInit {
       default:
         return status;
     }
+  }
+
+  public addToCart(product: Product): void {
+    this.cartService.addToCart(product);
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Produit ajouté',
+      detail: `${product.name} a été ajouté au panier`,
+      life: 3000
+    });
   }
 }
