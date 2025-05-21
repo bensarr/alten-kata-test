@@ -27,7 +27,7 @@ import {MenuItem, PrimeIcons} from "primeng/api";
         },
         {
             label: 'Contact',
-            icon: PrimeIcons.ADDRESS_BOOK,
+            icon: PrimeIcons.ENVELOPE,
             routerLink: ['/contact']
         }
     ]
