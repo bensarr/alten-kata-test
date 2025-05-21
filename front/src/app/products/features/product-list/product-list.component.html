@@ -7,10 +7,10 @@
     @for (product of products; track product) {
       <p-card class="block mb-2">
         <div class="flex flex-column md:flex-row">
-          @if (product.image) {)
-          <div class="md:w-3 flex align-items-center justify-content-center p-3">
-            <img [src]="product.image" [alt]="product.name" class="max-w-full max-h-12rem"/>
-          </div>
+          @if (product.image) {
+            <div class="md:w-3 flex align-items-center justify-content-center p-3">
+              <img [src]="product.image" [alt]="product.name" class="max-w-full max-h-12rem"/>
+            </div>
           }
 
           <div class="md:w-9 p-3">
