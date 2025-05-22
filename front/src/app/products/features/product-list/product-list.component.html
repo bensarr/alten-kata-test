@@ -51,6 +51,39 @@
               <p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating>
             </div>
             }
+            @if (isProductInCart(product.id)) {
+              <div class="cart-controls mt-3 p-3 border-1 border-300 border-round bg-blue-50">
+                <div class="flex align-items-center justify-content-between">
+                  <span class="font-semibold text-blue-900">Dans le panier:</span>
+                  <div class="flex align-items-center gap-2">
+                    <div class="quantity-controls">
+                      <button
+                        pButton
+                        icon="pi pi-minus"
+                        class="p-button-sm p-button-text p-button-rounded"
+                        (click)="decreaseQuantity(product)"
+                      ></button>
+                      <span class="quantity-display">{{ getProductQuantityInCart(product.id) }}</span>
+                      <button
+                        pButton
+                        icon="pi pi-plus"
+                        class="p-button-sm p-button-text p-button-rounded"
+                        (click)="increaseQuantity(product)"
+                      ></button>
+                    </div>
+                    <button
+                      pButton
+                      icon="pi pi-trash"
+                      class="p-button-danger p-button-text p-button-sm"
+                      (click)="removeFromCart(product)"
+                    ></button>
+                  </div>
+                </div>
+                <div class="mt-2 text-sm text-blue-700">
+                  Total: {{ (product.price * getProductQuantityInCart(product.id)) | currency:'EUR' }}
+                </div>
+              </div>
+            }
           </div>
         </div>
 
@@ -60,11 +93,21 @@
               <p-button label="Modifier" severity="secondary" (onClick)="onUpdate(product)"/>
               <p-button label="Supprimer" severity="danger" (onClick)="onDelete(product)" class="ml-2" />
             </div>
-            <p-button
-              label="Ajouter au panier"
-              icon="pi pi-shopping-cart"
-              (onClick)="addToCart(product)"
-            />
+
+            @if (!isProductInCart(product.id)) {
+              <p-button
+                label="Ajouter au panier"
+                icon="pi pi-shopping-cart"
+                (onClick)="addToCart(product)"
+              />
+            } @else {
+              <p-button
+                label="Ajouter une unité"
+                icon="pi pi-plus"
+                severity="secondary"
+                (onClick)="increaseQuantity(product)"
+              />
+            }
           </div>
         </ng-template>
       </p-card>

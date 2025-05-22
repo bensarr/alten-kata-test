@@ -107,4 +107,54 @@ export class ProductListComponent implements OnInit {
       life: 3000
     });
   }
+
+  public getProductQuantityInCart(productId: number): number {
+    const cartItem = this.cartService.cartItems().find(item => item.product.id === productId);
+    return cartItem ? cartItem.quantity : 0;
+  }
+
+  public isProductInCart(productId: number): boolean {
+    return this.getProductQuantityInCart(productId) > 0;
+  }
+
+  public increaseQuantity(product: Product): void {
+    this.cartService.addToCart(product, 1);
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Quantité augmentée',
+      detail: `Quantité de ${product.name} augmentée dans le panier`,
+      life: 2000
+    });
+  }
+
+  public decreaseQuantity(product: Product): void {
+    const currentQuantity = this.getProductQuantityInCart(product.id);
+    if (currentQuantity > 1) {
+      this.cartService.updateQuantity(product.id, currentQuantity - 1);
+      this.messageService.add({
+        severity: 'info',
+        summary: 'Quantité diminuée',
+        detail: `Quantité de ${product.name} diminuée dans le panier`,
+        life: 2000
+      });
+    } else if (currentQuantity === 1) {
+      this.cartService.removeFromCart(product.id);
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Produit retiré',
+        detail: `${product.name} a été retiré du panier`,
+        life: 2000
+      });
+    }
+  }
+
+  public removeFromCart(product: Product): void {
+    this.cartService.removeFromCart(product.id);
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'Produit retiré',
+      detail: `${product.name} a été retiré du panier`,
+      life: 2000
+    });
+  }
 }
