@@ -1,119 +1,235 @@
 <h1 class="text-center">Liste des produits</h1>
 
-<p-button label="Créer produit" (onClick)="onCreate()" class="block text-center"/>
+<div class="filters-section p-4 mb-4 border-1 border-300 border-round bg-gray-50">
+  <h3 class="mb-3">Filtres de recherche</h3>
 
-<p-dataView #dv [value]="products()">
+  <div class="grid">
+    <div class="col-12 md:col-6 lg:col-3">
+      <label for="search" class="block text-sm font-medium mb-2">Recherche</label>
+      <span class="p-input-icon-left w-full">
+        <i class="pi pi-search"></i>
+        <input
+          pInputText
+          id="search"
+          placeholder="Nom, description, code..."
+          class="w-full"
+          [ngModel]="filters().searchText"
+          (ngModelChange)="onSearchChange($event)"
+        />
+      </span>
+    </div>
+
+    <div class="col-12 md:col-6 lg:col-3">
+      <label for="category" class="block text-sm font-medium mb-2">Catégorie</label>
+      <p-dropdown
+        id="category"
+        [options]="categoryOptions()"
+        placeholder="Sélectionner une catégorie"
+        optionLabel="label"
+        optionValue="value"
+        class="w-full"
+        [ngModel]="filters().selectedCategory"
+        (ngModelChange)="onCategoryChange($event)"
+      />
+    </div>
+
+    <div class="col-12 md:col-6 lg:col-3">
+      <label for="status" class="block text-sm font-medium mb-2">Statut d'inventaire</label>
+      <p-dropdown
+        id="status"
+        [options]="inventoryStatusOptions"
+        placeholder="Sélectionner un statut"
+        optionLabel="label"
+        optionValue="value"
+        class="w-full"
+        [ngModel]="filters().selectedInventoryStatus"
+        (ngModelChange)="onInventoryStatusChange($event)"
+      />
+    </div>
+
+    <div class="col-12 md:col-6 lg:col-1-5">
+      <label for="minPrice" class="block text-sm font-medium mb-2">Prix min (€)</label>
+      <input
+        pInputText
+        id="minPrice"
+        type="number"
+        placeholder="0"
+        class="w-full"
+        [ngModel]="filters().minPrice"
+        (ngModelChange)="onMinPriceChange($event ? +$event : null)"
+      />
+    </div>
+
+    <div class="col-12 md:col-6 lg:col-1-5">
+      <label for="maxPrice" class="block text-sm font-medium mb-2">Prix max (€)</label>
+      <input
+        pInputText
+        id="maxPrice"
+        type="number"
+        placeholder="1000"
+        class="w-full"
+        [ngModel]="filters().maxPrice"
+        (ngModelChange)="onMaxPriceChange($event ? +$event : null)"
+      />
+    </div>
+  </div>
+
+  <div class="flex justify-content-between align-items-center mt-3">
+    <div class="flex gap-2">
+      <p-button
+        label="Effacer les filtres"
+        icon="pi pi-filter-slash"
+        severity="secondary"
+        size="small"
+        (onClick)="clearFilters()"
+      />
+    </div>
+    <div class="text-sm text-600">
+      {{ totalItems() }} produit(s) trouvé(s)
+    </div>
+  </div>
+</div>
+
+<div class="flex justify-content-between align-items-center mb-3">
+  <p-button label="Créer produit" icon="pi pi-plus" (onClick)="onCreate()"/>
+  <div class="text-sm text-600">
+    Page {{ currentPage() + 1 }} sur {{ Math.ceil(totalItems() / itemsPerPage()) || 1 }}
+  </div>
+</div>
+
+<p-dataView [value]="paginatedProducts()">
   <ng-template pTemplate="list" let-products>
-    @for (product of products; track product) {
-      <p-card class="block mb-2">
-        <div class="flex flex-column md:flex-row">
-          @if (product.image) {
-            <div class="md:w-3 flex align-items-center justify-content-center p-3">
-              <img [src]="product.image" [alt]="product.name" class="max-w-full max-h-12rem"/>
-            </div>
-          }
-
-          <div class="md:w-9 p-3">
-            <div class="flex justify-content-between align-items-center">
-              <span class="font-medium text-secondary text-sm">{{ product.category }}</span>
-              <span class="inventory-badge" [ngClass]="{
-                                'bg-green-100 text-green-900': product.inventoryStatus === 'INSTOCK',
-                                'bg-yellow-100 text-yellow-900': product.inventoryStatus === 'LOWSTOCK',
-                                'bg-red-100 text-red-900': product.inventoryStatus === 'OUTOFSTOCK'
-                            }">{{ getInventoryStatusLabel(product.inventoryStatus) }}</span>
-            </div>
-
-            <div class="text-lg font-medium text-900 mt-2">{{ product.name }}</div>
-
-            <div class="mt-2 text-gray-600 line-clamp-2">{{ product.description }}</div>
-
-            <div class="flex flex-wrap mt-3 gap-3">
-              <div class="flex align-items-center">
-                <i class="pi pi-tag mr-2"></i>
-                <span class="font-semibold">Code:</span> {{ product.code }}
+    @if (products.length === 0) {
+      <div class="text-center p-6">
+        <i class="pi pi-search text-6xl text-400 mb-3"></i>
+        <h3 class="text-400">Aucun produit trouvé</h3>
+        <p class="text-600">Essayez de modifier vos critères de recherche</p>
+      </div>
+    } @else {
+      @for (product of products; track product) {
+        <p-card class="block mb-2">
+          <div class="flex flex-column md:flex-row">
+            @if (product.image) {
+              <div class="md:w-3 flex align-items-center justify-content-center p-3">
+                <img [src]="product.image" [alt]="product.name" class="max-w-full max-h-12rem"/>
               </div>
-              <div class="flex align-items-center">
-                <i class="pi pi-dollar mr-2"></i>
-                <span class="font-semibold">Prix:</span> {{ product.price | currency:'EUR' }}
-              </div>
-              <div class="flex align-items-center">
-                <i class="pi pi-box mr-2"></i>
-                <span class="font-semibold">Quantité:</span> {{ product.quantity }}
-              </div>
-              <div class="flex align-items-center">
-                <i class="pi pi-id-card mr-2"></i>
-                <span class="font-semibold">Réf:</span> {{ product.internalReference }}
-              </div>
-            </div>
-
-            @if (product.rating > 0) {
-            <div class="flex align-items-center mt-2">
-              <p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating>
-            </div>
             }
-            @if (isProductInCart(product.id)) {
-              <div class="cart-controls mt-3 p-3 border-1 border-300 border-round bg-blue-50">
-                <div class="flex align-items-center justify-content-between">
-                  <span class="font-semibold text-blue-900">Dans le panier:</span>
-                  <div class="flex align-items-center gap-2">
-                    <div class="quantity-controls">
+
+            <div class="md:w-9 p-3">
+              <div class="flex justify-content-between align-items-center">
+                <span class="font-medium text-secondary text-sm">{{ product.category }}</span>
+                <span class="inventory-badge" [ngClass]="{
+                                  'bg-green-100 text-green-900': product.inventoryStatus === 'INSTOCK',
+                                  'bg-yellow-100 text-yellow-900': product.inventoryStatus === 'LOWSTOCK',
+                                  'bg-red-100 text-red-900': product.inventoryStatus === 'OUTOFSTOCK'
+                              }">{{ getInventoryStatusLabel(product.inventoryStatus) }}</span>
+              </div>
+
+              <div class="text-lg font-medium text-900 mt-2">{{ product.name }}</div>
+
+              <div class="mt-2 text-gray-600 line-clamp-2">{{ product.description }}</div>
+
+              <div class="flex flex-wrap mt-3 gap-3">
+                <div class="flex align-items-center">
+                  <i class="pi pi-tag mr-2"></i>
+                  <span class="font-semibold">Code:</span> {{ product.code }}
+                </div>
+                <div class="flex align-items-center">
+                  <i class="pi pi-dollar mr-2"></i>
+                  <span class="font-semibold">Prix:</span> {{ product.price | currency:'EUR' }}
+                </div>
+                <div class="flex align-items-center">
+                  <i class="pi pi-box mr-2"></i>
+                  <span class="font-semibold">Quantité:</span> {{ product.quantity }}
+                </div>
+                <div class="flex align-items-center">
+                  <i class="pi pi-id-card mr-2"></i>
+                  <span class="font-semibold">Réf:</span> {{ product.internalReference }}
+                </div>
+              </div>
+
+              @if (product.rating > 0) {
+                <div class="flex align-items-center mt-2">
+                  <p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating>
+                </div>
+              }
+              @if (isProductInCart(product.id)) {
+                <div class="cart-controls mt-3 p-3 border-1 border-300 border-round bg-blue-50">
+                  <div class="flex align-items-center justify-content-between">
+                    <span class="font-semibold text-blue-900">Dans le panier:</span>
+                    <div class="flex align-items-center gap-2">
+                      <div class="quantity-controls">
+                        <button
+                          pButton
+                          icon="pi pi-minus"
+                          class="p-button-sm p-button-text p-button-rounded"
+                          (click)="decreaseQuantity(product)"
+                        ></button>
+                        <span class="quantity-display">{{ getProductQuantityInCart(product.id) }}</span>
+                        <button
+                          pButton
+                          icon="pi pi-plus"
+                          class="p-button-sm p-button-text p-button-rounded"
+                          (click)="increaseQuantity(product)"
+                        ></button>
+                      </div>
                       <button
                         pButton
-                        icon="pi pi-minus"
-                        class="p-button-sm p-button-text p-button-rounded"
-                        (click)="decreaseQuantity(product)"
-                      ></button>
-                      <span class="quantity-display">{{ getProductQuantityInCart(product.id) }}</span>
-                      <button
-                        pButton
-                        icon="pi pi-plus"
-                        class="p-button-sm p-button-text p-button-rounded"
-                        (click)="increaseQuantity(product)"
+                        icon="pi pi-trash"
+                        class="p-button-danger p-button-text p-button-sm"
+                        (click)="removeFromCart(product)"
                       ></button>
                     </div>
-                    <button
-                      pButton
-                      icon="pi pi-trash"
-                      class="p-button-danger p-button-text p-button-sm"
-                      (click)="removeFromCart(product)"
-                    ></button>
+                  </div>
+                  <div class="mt-2 text-sm text-blue-700">
+                    Total: {{ (product.price * getProductQuantityInCart(product.id)) | currency:'EUR' }}
                   </div>
                 </div>
-                <div class="mt-2 text-sm text-blue-700">
-                  Total: {{ (product.price * getProductQuantityInCart(product.id)) | currency:'EUR' }}
-                </div>
-              </div>
-            }
-          </div>
-        </div>
-
-        <ng-template pTemplate="footer">
-          <div class="flex gap-3 mt-1 justify-content-between">
-            <div>
-              <p-button label="Modifier" severity="secondary" (onClick)="onUpdate(product)"/>
-              <p-button label="Supprimer" severity="danger" (onClick)="onDelete(product)" class="ml-2" />
+              }
             </div>
-
-            @if (!isProductInCart(product.id)) {
-              <p-button
-                label="Ajouter au panier"
-                icon="pi pi-shopping-cart"
-                (onClick)="addToCart(product)"
-              />
-            } @else {
-              <p-button
-                label="Ajouter une unité"
-                icon="pi pi-plus"
-                severity="secondary"
-                (onClick)="increaseQuantity(product)"
-              />
-            }
           </div>
-        </ng-template>
-      </p-card>
+
+          <ng-template pTemplate="footer">
+            <div class="flex gap-3 mt-1 justify-content-between">
+              <div>
+                <p-button label="Modifier" severity="secondary" (onClick)="onUpdate(product)"/>
+                <p-button label="Supprimer" severity="danger" (onClick)="onDelete(product)" class="ml-2" />
+              </div>
+
+              @if (!isProductInCart(product.id)) {
+                <p-button
+                  label="Ajouter au panier"
+                  icon="pi pi-shopping-cart"
+                  (onClick)="addToCart(product)"
+                />
+              } @else {
+                <p-button
+                  label="Ajouter une unité"
+                  icon="pi pi-plus"
+                  severity="secondary"
+                  (onClick)="increaseQuantity(product)"
+                />
+              }
+            </div>
+          </ng-template>
+        </p-card>
+      }
     }
   </ng-template>
 </p-dataView>
+
+@if (totalItems() > itemsPerPage()) {
+  <p-paginator
+    [rows]="itemsPerPage()"
+    [totalRecords]="totalItems()"
+    [first]="currentPage() * itemsPerPage()"
+    (onPageChange)="onPageChange($event)"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} produits"
+    [rowsPerPageOptions]="[6, 12, 24, 48]"
+    class="mt-3"
+  />
+}
 
 <p-dialog [(visible)]="isDialogVisible"
           [style]="{ width: '50vw' }"
