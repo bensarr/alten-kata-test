@@ -81,3 +81,9 @@ swagger-info:
   description: This API exposes endpoints to manage alten-kata Applications.
   terms-of-service: https://www.alten-kata.sn/terms
 
+bictorys-payment-provider:
+  api-url: https://api.test.bictorys.com/pay/v1/charges
+  public-api-key: X-Api-Key
+  public-api-value: test_public-eec3caae-55fc-42f5-99b0-680ff20cd1c2.Mqx9ld5Cp0M7i4uiF7pleh7iR1p3u5EYLZ5RweH1nQhHUYeugww7ON8mGWzOJD62
+
+

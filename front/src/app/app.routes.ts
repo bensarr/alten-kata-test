@@ -1,6 +1,6 @@
 import { Routes } from "@angular/router";
 import { HomeComponent } from "./shared/features/home/home.component";
-import {ContactComponent} from "./contact/features/contact/contact.component";
+import {ContactComponent} from "./contact/data-access/contact/contact.component";
 
 export const APP_ROUTES: Routes = [
   {
